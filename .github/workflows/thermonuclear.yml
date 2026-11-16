@@ -15,6 +15,7 @@ jobs:
       - uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           prompt: |
             /thermonuclear-review PR #${{ github.event.pull_request.number }} in ${{ github.repository }}.
             Base branch: ${{ github.base_ref }}. Post findings as one PR comment via `gh pr comment`.
