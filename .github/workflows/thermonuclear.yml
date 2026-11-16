@@ -10,7 +10,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: SoeltanIT/claude-review
-          token: ${{ secrets.REVIEW_SKILL_TOKEN }}
           path: .review-skill
       - run: mkdir -p .claude/skills && cp -R .review-skill/.claude/skills/* .claude/skills/
       - uses: anthropics/claude-code-action@v1
