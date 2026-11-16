@@ -1,0 +1,24 @@
+name: Thermonuclear review
+on: workflow_call
+jobs:
+  review:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/checkout@v4
+        with:
+          repository: SoeltanIT/claude-review
+          token: ${{ secrets.REVIEW_SKILL_TOKEN }}
+          path: .review-skill
+      - run: mkdir -p .claude/skills && cp -R .review-skill/.claude/skills/* .claude/skills/
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            /thermonuclear-review PR #${{ github.event.pull_request.number }} in ${{ github.repository }}.
+            Base branch: ${{ github.base_ref }}. Post findings as one PR comment via `gh pr comment`.
+          claude_args: |
+            --model claude-opus-5-5
+            --allowedTools "Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh pr comment:*),Bash(git diff:*),Bash(git log:*),Read,Grep,Glob"

@@ -1,0 +1,10 @@
+# Copy to <repo>/.github/workflows/thermonuclear.yml
+name: Thermonuclear review
+on:
+  pull_request:
+    types: [opened, ready_for_review]
+permissions: { contents: read, pull-requests: write, id-token: write }
+jobs:
+  review:
+    uses: SoeltanIT/claude-review/.github/workflows/thermonuclear.yml@main
+    secrets: inherit
